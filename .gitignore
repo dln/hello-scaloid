@@ -1,0 +1,11 @@
+/.cache
+/.classpath
+/dependency-reduced-pom.xml
+/.idea
+/.idea_modules
+/.project
+/project/target
+/project/project/target
+/.settings
+/target
+/*/target
