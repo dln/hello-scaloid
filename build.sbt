@@ -30,4 +30,6 @@ platformName in Android := "android-10"
 
 useProguard in Android := true
 
-
+libraryDependencies ++= Seq(
+  "org.scaloid" %% "scaloid" % "2.0-8-RC2"
+)

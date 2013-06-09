@@ -1,13 +1,35 @@
 package org.eintr.hello_scaloid
 
-import _root_.android.app.Activity
-import _root_.android.os.Bundle
+import java.util.concurrent.atomic.AtomicInteger
 
-class MainActivity extends Activity with TypedActivity {
-  override def onCreate(bundle: Bundle) {
-    super.onCreate(bundle)
-    setContentView(R.layout.main)
+import android.app.Activity
+import android.graphics.Color
+import android.os.Bundle
+import android.view.Gravity
 
-    findView(TR.textview).setText("hello, world!")
+import org.scaloid.common._
+
+class MainActivity extends SActivity {
+  val viewSeq = new AtomicInteger(0)
+
+  override def onCreate(savedState: Bundle) {
+    super.onCreate(savedState)
+    val prefs = Preferences()
+
+    viewSeq.set(0)
+    setContentView(
+      new SVerticalLayout {
+        style {
+          case v => v.id = viewSeq.incrementAndGet
+        }
+        STextView("Say Hello").gravity(Gravity.CENTER).textSize(16 sp).textColor(Color.BLUE).<<.marginBottom(16 dip).>>
+        val name = SEditText(prefs.String.name).hint("enter your first name").selectAllOnFocus(true)
+        SButton("Greet!", {
+          val who = name.text.toString
+          prefs.name = who
+          alert(s"${telephonyManager.getLine1Number} Welcomes You", s"Hello $who")
+        })
+      }
+    )
   }
 }
